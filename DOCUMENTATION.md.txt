@@ -1,0 +1,690 @@
+# SENTINEL — Technical Documentation
+
+## 1. Project Overview
+
+SENTINEL is an intelligent digital threat monitoring and security analysis platform designed to analyze URLs, domains, and IP addresses and provide a structured security assessment.
+
+The system combines a web-based security operations interface with a FastAPI backend and SQLite database. Users can submit a digital target, run an analysis, review detected security indicators, receive a normalized threat score, and access previous scan results.
+
+SENTINEL is designed as an educational and portfolio-oriented security analysis platform. Its purpose is to demonstrate practical concepts such as web application development, API communication, security heuristics, threat scoring, database management, and responsive interface design.
+
+---
+
+## 2. Project Objectives
+
+The main objectives of SENTINEL are:
+
+* Analyze suspicious URLs.
+* Analyze domains and IP addresses.
+* Detect potentially suspicious characteristics.
+* Convert detected indicators into a threat score.
+* Categorize targets into LOW, MEDIUM, HIGH, or CRITICAL risk levels.
+* Store completed assessments in a SQLite database.
+* Provide a scan history for previous assessments.
+* Present security information through a professional dashboard.
+* Maintain communication between the frontend and FastAPI backend.
+* Provide a foundation that can be expanded with more advanced threat-intelligence capabilities.
+
+---
+
+## 3. System Architecture
+
+SENTINEL follows a simple three-layer architecture.
+
+### Frontend Layer
+
+The frontend provides the user interface and contains:
+
+* Dashboard
+* Threat Scanner
+* Scan History
+* Intelligence Center
+* Target selection
+* Scan result visualization
+* Loading and error states
+* Backend status monitoring
+
+Main frontend technologies:
+
+* HTML5
+* CSS3
+* JavaScript
+
+### Backend Layer
+
+The backend is implemented using FastAPI.
+
+The backend is responsible for:
+
+* Receiving analysis requests.
+* Validating request data.
+* Performing URL analysis.
+* Performing domain and IP analysis.
+* Calculating threat scores.
+* Generating recommendations.
+* Saving scan results.
+* Returning scan history.
+
+Main backend technologies:
+
+* Python
+* FastAPI
+* Pydantic
+* SQLite
+
+### Database Layer
+
+SENTINEL uses SQLite for persistent scan storage.
+
+The database stores:
+
+* Scan ID
+* Target
+* Target type
+* Risk score
+* Risk level
+* Recommendation
+* Creation timestamp
+
+---
+
+## 4. Project Structure
+
+A typical SENTINEL project structure is:
+
+```text
+SENTINEL/
+│
+├── backend/
+│   ├── main.py
+│   └── sentinel.db
+│
+├── frontend/
+│   ├── index.html
+│   ├── style.css
+│   └── app.js
+│
+├── README.md
+├── DOCUMENTATION.md
+├── API.md
+└── .gitignore
+```
+
+The exact folder arrangement may differ depending on the local development setup.
+
+---
+
+## 5. Frontend
+
+### index.html
+
+The HTML file defines the structure of the SENTINEL application.
+
+Major interface sections include:
+
+* Overview
+* Threat Scanner
+* Scan History
+* Intelligence Center
+
+The scanner allows the user to select:
+
+* URL
+* Domain
+* IP Address
+
+The interface also provides:
+
+* Threat score
+* Risk level
+* Security indicators
+* Recommendations
+* Recent scans
+* System status
+
+### style.css
+
+The stylesheet controls the visual appearance of SENTINEL.
+
+It is responsible for:
+
+* Layout
+* Sidebar
+* Navigation
+* Cards
+* Buttons
+* Scanner interface
+* Threat result presentation
+* Risk indicators
+* Responsive behavior
+* Animations
+* Dark security-operations visual styling
+
+### app.js
+
+The JavaScript application connects the frontend to the FastAPI backend.
+
+Its responsibilities include:
+
+* Navigation
+* Target type selection
+* Input validation
+* Backend health checking
+* Sending scan requests
+* Processing API responses
+* Rendering scan results
+* Rendering scan history
+* Updating dashboard statistics
+* Displaying loading states
+* Displaying errors
+* Refreshing backend information
+
+The frontend communicates with the backend through HTTP requests.
+
+---
+
+## 6. Backend
+
+The main backend application is implemented in `main.py`.
+
+FastAPI provides the REST API used by the SENTINEL frontend.
+
+The application initializes the database during startup and exposes endpoints for health monitoring, target analysis, and scan history.
+
+---
+
+## 7. Database
+
+SENTINEL uses SQLite because it provides a lightweight persistent database without requiring a separate database server.
+
+The primary table is:
+
+### scans
+
+| Column         | Purpose                           |
+| -------------- | --------------------------------- |
+| id             | Unique scan identifier            |
+| target         | Analyzed target                   |
+| target_type    | URL, domain, or IP                |
+| risk_score     | Numeric score from 0 to 100       |
+| risk_level     | LOW, MEDIUM, HIGH, or CRITICAL    |
+| recommendation | Generated security recommendation |
+| created_at     | Scan creation timestamp           |
+
+The database is automatically initialized when the FastAPI application starts.
+
+---
+
+## 8. URL Analysis
+
+SENTINEL evaluates several characteristics of a submitted URL.
+
+### HTTPS Detection
+
+URLs that do not use HTTPS receive a security penalty because unencrypted HTTP communication can expose transmitted information.
+
+### Suspicious Keywords
+
+The system checks for potentially sensitive keywords such as:
+
+* login
+* signin
+* verify
+* verification
+* account
+* password
+* secure
+* confirm
+* bank
+* wallet
+* payment
+
+The presence of multiple sensitive keywords can increase the threat score.
+
+### URL Length
+
+Unusually long URLs can increase the score because excessive URL length may sometimes be associated with suspicious or deceptive links.
+
+### Subdomain Analysis
+
+URLs containing a large number of subdomains can receive an additional security indicator.
+
+### Embedded Credentials
+
+The system checks whether authentication information is embedded directly within the URL.
+
+### Direct IP Address
+
+The system can identify when a URL uses an IP address instead of a traditional domain name.
+
+---
+
+## 9. Domain and IP Analysis
+
+SENTINEL can analyze both domain names and IP addresses.
+
+### Domain Resolution
+
+For domains, SENTINEL attempts DNS resolution and records resolved IPv4 addresses.
+
+### Domain Characteristics
+
+The system evaluates characteristics such as:
+
+* Hostname length
+* Number of subdomains
+* Hyphen usage
+* DNS resolution status
+
+### IP Classification
+
+When an IP address is supplied, SENTINEL checks characteristics such as:
+
+* Private address
+* Loopback address
+* Multicast address
+
+These properties are returned as security indicators.
+
+---
+
+## 10. Threat Scoring
+
+SENTINEL converts detected security indicators into a normalized score between 0 and 100.
+
+The scoring engine uses severity weights.
+
+| Severity | Weight |
+| -------- | -----: |
+| LOW      |      5 |
+| MEDIUM   |     15 |
+| HIGH     |     25 |
+| CRITICAL |     40 |
+
+The final score is limited to the range:
+
+```text
+0–100
+```
+
+This makes the result easier to interpret and display in the user interface.
+
+---
+
+## 11. Risk Classification
+
+SENTINEL uses four risk categories.
+
+|  Score | Risk Level |
+| -----: | ---------- |
+|   0–29 | LOW        |
+|  30–59 | MEDIUM     |
+|  60–79 | HIGH       |
+| 80–100 | CRITICAL   |
+
+### LOW
+
+No major indicators were detected by the current analysis rules.
+
+### MEDIUM
+
+Suspicious characteristics were detected and additional verification is recommended.
+
+### HIGH
+
+Significant risk characteristics were detected and further investigation is recommended.
+
+### CRITICAL
+
+The target requires immediate investigation according to the current rule-based assessment.
+
+---
+
+## 12. Security Recommendations
+
+After calculating the threat score, SENTINEL generates a recommendation based on the final risk level.
+
+The recommendation is intended to help the user understand the significance of the result.
+
+The recommendations are rule-based and should not be interpreted as a complete real-world security verdict.
+
+---
+
+## 13. Scan History
+
+Every successful threat assessment can be stored in the SQLite database.
+
+The history system allows users to review:
+
+* Target
+* Target type
+* Risk score
+* Risk level
+* Recommendation
+* Scan timestamp
+
+The dashboard can also display recent assessments.
+
+---
+
+## 14. Frontend ↔ Backend Communication
+
+The frontend communicates with the FastAPI backend using HTTP requests.
+
+The backend is expected to run on:
+
+```text
+http://127.0.0.1:8000
+```
+
+The frontend sends JSON requests to the analysis endpoint.
+
+Example request:
+
+```json
+{
+  "target": "https://example.com",
+  "target_type": "url"
+}
+```
+
+The backend processes the request and returns a structured JSON response containing the analysis and threat assessment.
+
+---
+
+## 15. API Communication Flow
+
+The general scan workflow is:
+
+```text
+User enters target
+        ↓
+Frontend validates target
+        ↓
+Frontend sends API request
+        ↓
+FastAPI receives request
+        ↓
+Target analysis is performed
+        ↓
+Threat score is calculated
+        ↓
+Result is stored in SQLite
+        ↓
+JSON response returned
+        ↓
+Frontend displays result
+        ↓
+Dashboard/history is refreshed
+```
+
+---
+
+## 16. Error Handling
+
+SENTINEL includes several levels of error handling.
+
+### Frontend
+
+The frontend handles:
+
+* Empty input
+* Invalid URLs
+* Invalid domains
+* Invalid IPv4 addresses
+* Backend connection failures
+* Invalid API responses
+* Failed scan requests
+
+### Backend
+
+The backend handles:
+
+* Invalid target types
+* Missing scan records
+* Invalid analysis requests
+* Database initialization
+
+The frontend also provides user-facing messages when the backend cannot be reached.
+
+---
+
+## 17. Backend Health Monitoring
+
+SENTINEL provides a health endpoint that allows the frontend to determine whether the backend is operational.
+
+The frontend periodically checks backend availability and updates the system status displayed in the interface.
+
+This allows the dashboard to distinguish between an online and unavailable backend.
+
+---
+
+## 18. Intelligence Center
+
+The Intelligence Center explains the main analytical capabilities of SENTINEL.
+
+It presents:
+
+1. URL Analysis
+2. Domain Intelligence
+3. Threat Scoring
+4. Persistent History
+
+It also explains the four threat severity levels used by the scoring engine.
+
+This section is intended to make the system easier to understand for users who are not familiar with the internal implementation.
+
+---
+
+## 19. Technologies Used
+
+### Frontend
+
+* HTML5
+* CSS3
+* JavaScript
+
+### Backend
+
+* Python
+* FastAPI
+* Pydantic
+
+### Database
+
+* SQLite
+
+### Development
+
+* Visual Studio Code or another code editor
+* Web browser
+* Python environment
+* FastAPI development server
+
+---
+
+## 20. Running SENTINEL
+
+### Start the Backend
+
+From the backend directory, run:
+
+```bash
+uvicorn main:app --reload
+```
+
+The FastAPI server will normally be available at:
+
+```text
+http://127.0.0.1:8000
+```
+
+### Start the Frontend
+
+Open the frontend using a local development server.
+
+For example, with a suitable local server, the frontend may be available at:
+
+```text
+http://127.0.0.1:5500
+```
+
+The frontend JavaScript configuration must point to the correct FastAPI backend address.
+
+---
+
+## 21. Testing
+
+The SENTINEL system should be tested using different target categories.
+
+### URL Tests
+
+Test examples should include:
+
+* HTTPS URL
+* HTTP URL
+* URL containing sensitive keywords
+* Long URL
+* URL containing an IP address
+
+### Domain Tests
+
+Test examples should include:
+
+* Valid domain
+* Invalid domain
+* Domain that resolves
+* Domain that does not resolve
+
+### IP Tests
+
+Test examples should include:
+
+* Public IPv4 address
+* Private IPv4 address
+* Loopback address
+* Invalid IPv4 address
+
+### Application Tests
+
+The following should also be verified:
+
+* Dashboard statistics update.
+* Scan results appear correctly.
+* Scan history updates.
+* Risk levels display correctly.
+* Backend status changes correctly.
+* Invalid input produces an understandable error.
+* Loading state appears during scanning.
+* Successful scans are stored in SQLite.
+
+---
+
+## 22. Current Capabilities
+
+The current SENTINEL implementation provides:
+
+* URL analysis
+* Domain analysis
+* IP analysis
+* Security indicators
+* Threat scoring
+* Risk classification
+* Security recommendations
+* SQLite persistence
+* Scan history
+* Dashboard statistics
+* Backend health monitoring
+* Frontend/backend integration
+* Intelligence Center
+* Responsive interface
+* Loading and error handling
+
+---
+
+## 23. Limitations
+
+SENTINEL currently uses a rule-based analytical engine.
+
+It does not automatically represent a complete enterprise threat-intelligence platform.
+
+For example, the current implementation does not inherently provide:
+
+* Malware sandboxing
+* Full packet inspection
+* Commercial threat-intelligence feeds
+* WHOIS intelligence
+* Certificate reputation analysis
+* VirusTotal-style multi-engine scanning
+* Real-time global threat feeds
+* Advanced machine-learning classification
+* Full vulnerability scanning
+* Automated penetration testing
+
+These limitations are intentional for the current project scope.
+
+---
+
+## 24. Future Improvements
+
+SENTINEL can be expanded with additional security capabilities, including:
+
+* Threat-intelligence API integration
+* WHOIS lookup
+* SSL/TLS certificate analysis
+* DNS record analysis
+* Reputation databases
+* Domain age analysis
+* Redirect-chain analysis
+* URL reputation services
+* Machine-learning-based threat classification
+* User authentication
+* Role-based access control
+* Advanced analytics
+* Exportable security reports
+* PDF report generation
+* Security alerts
+* Real-time monitoring
+* Advanced visualizations
+* Cloud deployment
+
+---
+
+## 25. Security and Responsible Use
+
+SENTINEL should be used responsibly.
+
+Users should only analyze targets that they are authorized to investigate or that are publicly available for legitimate security analysis.
+
+The platform is intended for educational, defensive, research, and authorized security-analysis purposes.
+
+A SENTINEL score is an analytical indication produced by the current rule set. It should not be treated as definitive proof that a target is malicious or safe.
+
+---
+
+## 26. Project Status
+
+SENTINEL has progressed from a basic security-analysis concept into a functional full-stack application.
+
+The core system includes:
+
+* A functional FastAPI backend
+* Persistent SQLite storage
+* Multiple target-analysis modes
+* Threat scoring
+* Scan history
+* Interactive frontend
+* Dashboard
+* Intelligence Center
+* Frontend/backend communication
+* Error and loading handling
+
+The remaining work is primarily final packaging, repository organization, documentation, deployment preparation, and optional future security-engine improvements.
+
+---
+
+## 27. Conclusion
+
+SENTINEL demonstrates how a modern web application can combine frontend development, backend API engineering, database persistence, and security-analysis logic into one integrated platform.
+
+The project provides a foundation for further development into a more advanced threat-intelligence system while maintaining a clear and understandable architecture suitable for learning, demonstration, and portfolio presentation.

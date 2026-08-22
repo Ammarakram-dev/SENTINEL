@@ -1,0 +1,1938 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="SENTINEL — Intelligent Digital Threat Monitoring and Security Analysis Platform"
+    >
+
+    <meta
+        name="theme-color"
+        content="#07110f"
+    >
+
+    <title>SENTINEL — Threat Intelligence</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+</head>
+
+
+<body>
+
+<div class="app-shell">
+
+
+    <!-- =====================================================
+         SIDEBAR
+         ===================================================== -->
+
+    <aside class="sidebar" id="sidebar">
+
+        <div class="brand">
+
+            <div class="brand-mark">
+                <span>S</span>
+            </div>
+
+            <div class="brand-copy">
+
+                <h1>SENTINEL</h1>
+
+                <p>
+                    THREAT INTELLIGENCE
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="sidebar-divider"></div>
+
+
+        <nav class="main-nav">
+
+            <button
+                class="nav-item active"
+                data-section="overview"
+            >
+
+                <span class="nav-icon">◈</span>
+
+                <span class="nav-label">
+                    Overview
+                </span>
+
+            </button>
+
+
+            <button
+                class="nav-item"
+                data-section="scanner"
+            >
+
+                <span class="nav-icon">⌕</span>
+
+                <span class="nav-label">
+                    Threat Scanner
+                </span>
+
+            </button>
+
+
+            <button
+                class="nav-item"
+                data-section="history"
+            >
+
+                <span class="nav-icon">◷</span>
+
+                <span class="nav-label">
+                    Scan History
+                </span>
+
+            </button>
+
+
+            <button
+                class="nav-item"
+                data-section="intelligence"
+            >
+
+                <span class="nav-icon">◎</span>
+
+                <span class="nav-label">
+                    Intelligence
+                </span>
+
+            </button>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <div class="system-card">
+
+                <div class="system-indicator">
+
+                    <span class="pulse-dot"></span>
+
+                </div>
+
+                <div>
+
+                    <strong id="sidebar-status">
+                        System Online
+                    </strong>
+
+                    <small id="sidebar-status-detail">
+                        Monitoring active
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="sidebar-version">
+
+                <span>
+                    SENTINEL
+                </span>
+
+                <span>
+                    v1.0
+                </span>
+
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MOBILE OVERLAY -->
+
+    <div
+        class="sidebar-overlay"
+        id="sidebar-overlay"
+    ></div>
+
+
+    <!-- =====================================================
+         MAIN APPLICATION
+         ===================================================== -->
+
+    <main class="main-content">
+
+
+        <!-- =================================================
+             TOPBAR
+             ================================================= -->
+
+        <header class="topbar">
+
+            <div class="topbar-left">
+
+                <button
+                    class="mobile-menu"
+                    id="mobile-menu"
+                    aria-label="Open navigation"
+                >
+                    ☰
+                </button>
+
+                <div>
+
+                    <p class="eyebrow">
+                        SECURITY OPERATIONS CENTER
+                    </p>
+
+                    <h2 id="page-title">
+                        Overview
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <div class="topbar-right">
+
+                <div
+                    class="backend-pill"
+                    id="backend-pill"
+                >
+
+                    <span class="live-dot"></span>
+
+                    <span id="backend-pill-text">
+                        CONNECTING
+                    </span>
+
+                </div>
+
+
+                <button
+                    class="refresh-button"
+                    id="refresh-button"
+                    title="Refresh SENTINEL"
+                >
+                    ↻
+                </button>
+
+
+                <div class="user-avatar">
+                    A
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- =================================================
+             CONTENT
+             ================================================= -->
+
+        <div class="content-wrapper">
+
+
+            <!-- =================================================
+                 OVERVIEW / DASHBOARD
+                 ================================================= -->
+
+            <section
+                id="overview"
+                class="page-section active-section"
+            >
+
+
+                <!-- HERO -->
+
+                <div class="dashboard-hero">
+
+                    <div class="hero-content">
+
+                        <div class="hero-label">
+
+                            <span class="hero-label-dot"></span>
+
+                            SENTINEL SECURITY ENGINE
+
+                        </div>
+
+
+                        <h3>
+
+                            Digital threats,
+
+                            <span>
+                                under surveillance.
+                            </span>
+
+                        </h3>
+
+
+                        <p>
+
+                            Analyze suspicious URLs, domains and
+                            IP addresses using SENTINEL's
+                            intelligent threat assessment engine.
+
+                        </p>
+
+
+                        <div class="hero-actions">
+
+                            <button
+                                class="primary-button"
+                                onclick="showSection('scanner')"
+                            >
+
+                                <span>
+                                    ◈
+                                </span>
+
+                                Start Security Scan
+
+                                <b>
+                                    →
+                                </b>
+
+                            </button>
+
+
+                            <button
+                                class="secondary-button"
+                                onclick="showSection('intelligence')"
+                            >
+
+                                Intelligence Center
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- HERO VISUAL -->
+
+                    <div class="hero-visual">
+
+                        <div class="scan-radar">
+
+                            <div class="radar-ring radar-ring-1"></div>
+
+                            <div class="radar-ring radar-ring-2"></div>
+
+                            <div class="radar-ring radar-ring-3"></div>
+
+                            <div class="radar-cross horizontal"></div>
+
+                            <div class="radar-cross vertical"></div>
+
+                            <div class="radar-sweep"></div>
+
+                            <div class="radar-core">
+
+                                <strong>
+                                    S
+                                </strong>
+
+                                <span>
+                                    ACTIVE
+                                </span>
+
+                            </div>
+
+                            <span class="radar-point point-1"></span>
+                            <span class="radar-point point-2"></span>
+                            <span class="radar-point point-3"></span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     STATISTICS
+                     ================================================= -->
+
+                <div class="stats-grid">
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-top">
+
+                            <span>
+                                TOTAL SCANS
+                            </span>
+
+                            <div class="stat-icon">
+                                ◈
+                            </div>
+
+                        </div>
+
+                        <strong id="total-scans">
+                            0
+                        </strong>
+
+                        <small>
+                            Recorded assessments
+                        </small>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-top">
+
+                            <span>
+                                HIGH RISK
+                            </span>
+
+                            <div class="stat-icon danger-icon">
+                                !
+                            </div>
+
+                        </div>
+
+                        <strong
+                            id="high-risk"
+                            class="danger-number"
+                        >
+                            0
+                        </strong>
+
+                        <small>
+                            High & critical findings
+                        </small>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-top">
+
+                            <span>
+                                SAFE / LOW
+                            </span>
+
+                            <div class="stat-icon">
+                                ✓
+                            </div>
+
+                        </div>
+
+                        <strong id="low-risk">
+                            0
+                        </strong>
+
+                        <small>
+                            Low-risk assessments
+                        </small>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-top">
+
+                            <span>
+                                SYSTEM
+                            </span>
+
+                            <div class="stat-icon">
+                                ●
+                            </div>
+
+                        </div>
+
+                        <strong
+                            id="system-status"
+                            class="online-number"
+                        >
+                            ONLINE
+                        </strong>
+
+                        <small>
+                            FastAPI operational
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     ANALYTICS ROW
+                     ================================================= -->
+
+                <div class="analytics-grid">
+
+
+                    <!-- THREAT DISTRIBUTION -->
+
+                    <div class="panel threat-distribution">
+
+                        <div class="panel-heading">
+
+                            <div>
+
+                                <p class="eyebrow">
+                                    ANALYTICS
+                                </p>
+
+                                <h3>
+                                    Threat distribution
+                                </h3>
+
+                            </div>
+
+                            <span class="panel-live">
+                                LIVE
+                            </span>
+
+                        </div>
+
+
+                        <div class="distribution-content">
+
+                            <div class="donut-wrapper">
+
+                                <div class="donut-chart">
+
+                                    <div class="donut-center">
+
+                                        <strong id="total-threat-count">
+                                            0
+                                        </strong>
+
+                                        <span>
+                                            SCANS
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="distribution-legend">
+
+                                <div class="legend-item">
+
+                                    <span class="legend-dot low-dot"></span>
+
+                                    <div>
+
+                                        <strong id="legend-low">
+                                            0
+                                        </strong>
+
+                                        <small>
+                                            LOW
+                                        </small>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="legend-item">
+
+                                    <span class="legend-dot medium-dot"></span>
+
+                                    <div>
+
+                                        <strong id="legend-medium">
+                                            0
+                                        </strong>
+
+                                        <small>
+                                            MEDIUM
+                                        </small>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="legend-item">
+
+                                    <span class="legend-dot high-dot"></span>
+
+                                    <div>
+
+                                        <strong id="legend-high">
+                                            0
+                                        </strong>
+
+                                        <small>
+                                            HIGH
+                                        </small>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="legend-item">
+
+                                    <span class="legend-dot critical-dot"></span>
+
+                                    <div>
+
+                                        <strong id="legend-critical">
+                                            0
+                                        </strong>
+
+                                        <small>
+                                            CRITICAL
+                                        </small>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ENGINE STATUS -->
+
+                    <div class="panel engine-panel">
+
+                        <div class="panel-heading">
+
+                            <div>
+
+                                <p class="eyebrow">
+                                    ENGINE
+                                </p>
+
+                                <h3>
+                                    System diagnostics
+                                </h3>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="diagnostics">
+
+                            <div class="diagnostic-row">
+
+                                <div class="diagnostic-name">
+
+                                    <span class="diagnostic-icon">
+                                        API
+                                    </span>
+
+                                    <div>
+
+                                        <strong>
+                                            FastAPI Engine
+                                        </strong>
+
+                                        <small>
+                                            Core analysis service
+                                        </small>
+
+                                    </div>
+
+                                </div>
+
+                                <span
+                                    class="diagnostic-status"
+                                    id="api-diagnostic"
+                                >
+                                    CHECKING
+                                </span>
+
+                            </div>
+
+
+                            <div class="diagnostic-row">
+
+                                <div class="diagnostic-name">
+
+                                    <span class="diagnostic-icon">
+                                        DB
+                                    </span>
+
+                                    <div>
+
+                                        <strong>
+                                            SQLite Database
+                                        </strong>
+
+                                        <small>
+                                            Persistent scan storage
+                                        </small>
+
+                                    </div>
+
+                                </div>
+
+                                <span class="diagnostic-status online">
+                                    READY
+                                </span>
+
+                            </div>
+
+
+                            <div class="diagnostic-row">
+
+                                <div class="diagnostic-name">
+
+                                    <span class="diagnostic-icon">
+                                        AI
+                                    </span>
+
+                                    <div>
+
+                                        <strong>
+                                            Threat Engine
+                                        </strong>
+
+                                        <small>
+                                            Rule-based assessment
+                                        </small>
+
+                                    </div>
+
+                                </div>
+
+                                <span class="diagnostic-status online">
+                                    ACTIVE
+                                </span>
+
+                            </div>
+
+
+                            <div class="diagnostic-row">
+
+                                <div class="diagnostic-name">
+
+                                    <span class="diagnostic-icon">
+                                        NET
+                                    </span>
+
+                                    <div>
+
+                                        <strong>
+                                            Network Resolver
+                                        </strong>
+
+                                        <small>
+                                            Domain intelligence
+                                        </small>
+
+                                    </div>
+
+                                </div>
+
+                                <span class="diagnostic-status online">
+                                    READY
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     RECENT ACTIVITY
+                     ================================================= -->
+
+                <div class="panel recent-panel">
+
+                    <div class="panel-heading">
+
+                        <div>
+
+                            <p class="eyebrow">
+                                ACTIVITY STREAM
+                            </p>
+
+                            <h3>
+                                Recent security scans
+                            </h3>
+
+                        </div>
+
+
+                        <button
+                            class="text-button"
+                            onclick="showSection('history')"
+                        >
+                            View all →
+                        </button>
+
+                    </div>
+
+
+                    <div id="recent-scans">
+
+                        <div class="empty-state">
+
+                            <div class="empty-icon">
+                                ◌
+                            </div>
+
+                            <h4>
+                                No scans recorded yet
+                            </h4>
+
+                            <p>
+                                Run your first security assessment
+                                to populate the activity stream.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </section>
+
+
+            <!-- =================================================
+                 THREAT SCANNER
+                 ================================================= -->
+
+            <section
+                id="scanner"
+                class="page-section"
+            >
+
+
+                <div class="section-heading">
+
+                    <div>
+
+                        <p class="eyebrow">
+                            THREAT ANALYSIS
+                        </p>
+
+                        <h3>
+                            Security Scanner
+                        </h3>
+
+                        <p>
+                            Enter a URL, domain or IP address
+                            for a complete SENTINEL assessment.
+                        </p>
+
+                    </div>
+
+
+                    <div class="engine-badge">
+
+                        <span></span>
+
+                        ENGINE READY
+
+                    </div>
+
+                </div>
+
+
+                <!-- SCANNER CARD -->
+
+                <div class="scanner-layout">
+
+
+                    <div class="scanner-main panel">
+
+                        <div class="scanner-step">
+
+                            <span>
+                                01
+                            </span>
+
+                            <div>
+
+                                <strong>
+                                    Select target type
+                                </strong>
+
+                                <small>
+                                    Choose what you want SENTINEL to analyze.
+                                </small>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="type-buttons">
+
+                            <button
+                                class="type-btn active"
+                                data-type="url"
+                            >
+
+                                <span class="type-icon">
+                                    ⌕
+                                </span>
+
+                                <div>
+
+                                    <strong>
+                                        URL
+                                    </strong>
+
+                                    <small>
+                                        Website address
+                                    </small>
+
+                                </div>
+
+                            </button>
+
+
+                            <button
+                                class="type-btn"
+                                data-type="domain"
+                            >
+
+                                <span class="type-icon">
+                                    ◉
+                                </span>
+
+                                <div>
+
+                                    <strong>
+                                        DOMAIN
+                                    </strong>
+
+                                    <small>
+                                        Domain intelligence
+                                    </small>
+
+                                </div>
+
+                            </button>
+
+
+                            <button
+                                class="type-btn"
+                                data-type="ip"
+                            >
+
+                                <span class="type-icon">
+                                    ◎
+                                </span>
+
+                                <div>
+
+                                    <strong>
+                                        IP ADDRESS
+                                    </strong>
+
+                                    <small>
+                                        IPv4 analysis
+                                    </small>
+
+                                </div>
+
+                            </button>
+
+                        </div>
+
+
+                        <div class="scanner-step target-step">
+
+                            <span>
+                                02
+                            </span>
+
+                            <div>
+
+                                <strong>
+                                    Enter target
+                                </strong>
+
+                                <small>
+                                    Provide the digital asset you want to investigate.
+                                </small>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="target-input-wrapper">
+
+                            <span class="target-input-icon">
+                                ◉
+                            </span>
+
+                            <input
+                                id="target-input"
+                                type="text"
+                                autocomplete="off"
+                                spellcheck="false"
+                                placeholder="https://example.com"
+                            >
+
+                            <span class="input-ready">
+                                READY
+                            </span>
+
+                        </div>
+
+
+                        <button
+                            id="scan-button"
+                            class="scan-button"
+                        >
+
+                            <span class="scan-button-icon">
+                                ◈
+                            </span>
+
+                            <span>
+                                Analyze Target
+                            </span>
+
+                            <b>
+                                →
+                            </b>
+
+                        </button>
+
+
+                        <div
+                            id="scanner-message"
+                            class="scanner-message"
+                        ></div>
+
+
+                        <div class="scanner-note">
+
+                            <span>
+                                ⓘ
+                            </span>
+
+                            SENTINEL performs local rule-based
+                            analysis. Results should be treated as
+                            security indicators, not definitive proof
+                            of malicious activity.
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- QUICK INFO -->
+
+                    <aside class="scanner-side">
+
+                        <div class="panel quick-panel">
+
+                            <div class="panel-heading">
+
+                                <div>
+
+                                    <p class="eyebrow">
+                                        SCAN ENGINE
+                                    </p>
+
+                                    <h3>
+                                        Detection layers
+                                    </h3>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="layer-list">
+
+                                <div class="layer">
+
+                                    <span>
+                                        01
+                                    </span>
+
+                                    <div>
+
+                                        <strong>
+                                            Protocol analysis
+                                        </strong>
+
+                                        <small>
+                                            HTTPS and URL structure
+                                        </small>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="layer">
+
+                                    <span>
+                                        02
+                                    </span>
+
+                                    <div>
+
+                                        <strong>
+                                            Pattern detection
+                                        </strong>
+
+                                        <small>
+                                            Suspicious keywords
+                                        </small>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="layer">
+
+                                    <span>
+                                        03
+                                    </span>
+
+                                    <div>
+
+                                        <strong>
+                                            Host analysis
+                                        </strong>
+
+                                        <small>
+                                            Domain and IP characteristics
+                                        </small>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="layer">
+
+                                    <span>
+                                        04
+                                    </span>
+
+                                    <div>
+
+                                        <strong>
+                                            Threat scoring
+                                        </strong>
+
+                                        <small>
+                                            Normalized 0–100 score
+                                        </small>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </aside>
+
+                </div>
+
+
+                <!-- =================================================
+                     RESULT
+                     ================================================= -->
+
+                <div
+                    id="scan-result"
+                    class="result-card hidden"
+                >
+
+                    <div class="result-top">
+
+                        <div>
+
+                            <p class="eyebrow">
+                                ANALYSIS RESULT
+                            </p>
+
+                            <h3 id="result-target">
+                                —
+                            </h3>
+
+                            <span
+                                class="result-type"
+                                id="result-type"
+                            >
+                                TARGET
+                            </span>
+
+                        </div>
+
+
+                        <div
+                            id="risk-badge"
+                            class="risk-badge risk-low"
+                        >
+                            LOW
+                        </div>
+
+                    </div>
+
+
+                    <div class="result-summary">
+
+
+                        <div class="score-container">
+
+                            <div
+                                class="score-circle"
+                                id="score-circle"
+                            >
+
+                                <div>
+
+                                    <strong id="risk-score">
+                                        0
+                                    </strong>
+
+                                    <span>
+                                        /100
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                            <p>
+                                THREAT SCORE
+                            </p>
+
+                        </div>
+
+
+                        <div class="assessment-summary">
+
+                            <p class="eyebrow">
+                                SECURITY ASSESSMENT
+                            </p>
+
+                            <h4 id="risk-level">
+                                LOW
+                            </h4>
+
+                            <p id="recommendation">
+                                No recommendation available.
+                            </p>
+
+
+                            <div class="result-meta">
+
+                                <span>
+                                    Indicators:
+                                    <strong id="result-indicator-count">
+                                        0
+                                    </strong>
+                                </span>
+
+                                <span>
+                                    Scan ID:
+                                    <strong id="result-scan-id">
+                                        —
+                                    </strong>
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- INDICATORS -->
+
+                    <div class="result-indicators">
+
+                        <div class="panel-heading">
+
+                            <div>
+
+                                <p class="eyebrow">
+                                    DETECTION ENGINE
+                                </p>
+
+                                <h3>
+                                    Security indicators
+                                </h3>
+
+                            </div>
+
+                        </div>
+
+
+                        <div id="indicator-list"></div>
+
+                    </div>
+
+                </div>
+
+
+            </section>
+
+
+            <!-- =================================================
+                 HISTORY
+                 ================================================= -->
+
+            <section
+                id="history"
+                class="page-section"
+            >
+
+
+                <div class="section-heading">
+
+                    <div>
+
+                        <p class="eyebrow">
+                            PERSISTENT INTELLIGENCE
+                        </p>
+
+                        <h3>
+                            Scan History
+                        </h3>
+
+                        <p>
+                            Review previous security assessments
+                            stored by SENTINEL.
+                        </p>
+
+                    </div>
+
+
+                    <button
+                        class="secondary-button"
+                        onclick="refreshSentinel()"
+                    >
+                        ↻ Refresh History
+                    </button>
+
+                </div>
+
+
+                <div class="history-toolbar">
+
+                    <div class="history-search">
+
+                        <span>
+                            ⌕
+                        </span>
+
+                        <input
+                            id="history-search"
+                            type="search"
+                            placeholder="Search targets..."
+                        >
+
+                    </div>
+
+
+                    <div class="history-filters">
+
+                        <button
+                            class="filter-btn active"
+                            data-filter="all"
+                        >
+                            All
+                        </button>
+
+                        <button
+                            class="filter-btn"
+                            data-filter="low"
+                        >
+                            Low
+                        </button>
+
+                        <button
+                            class="filter-btn"
+                            data-filter="medium"
+                        >
+                            Medium
+                        </button>
+
+                        <button
+                            class="filter-btn"
+                            data-filter="high"
+                        >
+                            High
+                        </button>
+
+                        <button
+                            class="filter-btn"
+                            data-filter="critical"
+                        >
+                            Critical
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <div class="panel history-panel">
+
+                    <div class="history-table-header">
+
+                        <span>
+                            TARGET
+                        </span>
+
+                        <span>
+                            TYPE
+                        </span>
+
+                        <span>
+                            SCORE
+                        </span>
+
+                        <span>
+                            RISK
+                        </span>
+
+                        <span>
+                            DATE
+                        </span>
+
+                    </div>
+
+
+                    <div
+                        id="history-list"
+                        class="history-list"
+                    >
+
+                        <div class="empty-state">
+
+                            <div class="empty-icon">
+                                ◌
+                            </div>
+
+                            <h4>
+                                No scan history
+                            </h4>
+
+                            <p>
+                                Completed assessments will appear here.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 INTELLIGENCE CENTER
+                 ================================================= -->
+
+            <section
+                id="intelligence"
+                class="page-section"
+            >
+
+
+                <div class="section-heading">
+
+                    <div>
+
+                        <p class="eyebrow">
+                            SECURITY ENGINE
+                        </p>
+
+                        <h3>
+                            Intelligence Center
+                        </h3>
+
+                        <p>
+                            Understand how SENTINEL evaluates digital
+                            targets and produces threat assessments.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="intelligence-grid">
+
+
+                    <article class="intel-card">
+
+                        <div class="intel-card-top">
+
+                            <div class="intel-icon">
+                                ◈
+                            </div>
+
+                            <span>
+                                01
+                            </span>
+
+                        </div>
+
+                        <h3>
+                            URL Analysis
+                        </h3>
+
+                        <p>
+                            Examines URL structure, protocol security,
+                            suspicious keywords, excessive length,
+                            embedded credentials and direct IP usage.
+                        </p>
+
+                        <div class="intel-footer">
+                            <span class="engine-dot"></span>
+                            ACTIVE ENGINE
+                        </div>
+
+                    </article>
+
+
+                    <article class="intel-card">
+
+                        <div class="intel-card-top">
+
+                            <div class="intel-icon">
+                                ◉
+                            </div>
+
+                            <span>
+                                02
+                            </span>
+
+                        </div>
+
+                        <h3>
+                            Domain Intelligence
+                        </h3>
+
+                        <p>
+                            Resolves domains, identifies associated
+                            IP addresses and evaluates hostname
+                            characteristics and unusual patterns.
+                        </p>
+
+                        <div class="intel-footer">
+                            <span class="engine-dot"></span>
+                            ACTIVE ENGINE
+                        </div>
+
+                    </article>
+
+
+                    <article class="intel-card">
+
+                        <div class="intel-card-top">
+
+                            <div class="intel-icon">
+                                ◎
+                            </div>
+
+                            <span>
+                                03
+                            </span>
+
+                        </div>
+
+                        <h3>
+                            Threat Scoring
+                        </h3>
+
+                        <p>
+                            Combines security indicators into a
+                            normalized threat score from 0 to 100
+                            and assigns a severity level.
+                        </p>
+
+                        <div class="intel-footer">
+                            <span class="engine-dot"></span>
+                            ACTIVE ENGINE
+                        </div>
+
+                    </article>
+
+
+                    <article class="intel-card">
+
+                        <div class="intel-card-top">
+
+                            <div class="intel-icon">
+                                ◷
+                            </div>
+
+                            <span>
+                                04
+                            </span>
+
+                        </div>
+
+                        <h3>
+                            Persistent History
+                        </h3>
+
+                        <p>
+                            Stores completed assessments in SQLite,
+                            allowing analysts to review historical
+                            security activity.
+                        </p>
+
+                        <div class="intel-footer">
+                            <span class="engine-dot"></span>
+                            DATABASE ACTIVE
+                        </div>
+
+                    </article>
+
+                </div>
+
+
+                <!-- PROCESS -->
+
+                <div class="panel process-panel">
+
+                    <div class="panel-heading">
+
+                        <div>
+
+                            <p class="eyebrow">
+                                ANALYSIS PIPELINE
+                            </p>
+
+                            <h3>
+                                How SENTINEL works
+                            </h3>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="process-flow">
+
+                        <div class="process-step">
+
+                            <span>
+                                01
+                            </span>
+
+                            <strong>
+                                Target
+                            </strong>
+
+                            <small>
+                                URL / Domain / IP
+                            </small>
+
+                        </div>
+
+
+                        <div class="process-line"></div>
+
+
+                        <div class="process-step">
+
+                            <span>
+                                02
+                            </span>
+
+                            <strong>
+                                Analysis
+                            </strong>
+
+                            <small>
+                                Detection rules
+                            </small>
+
+                        </div>
+
+
+                        <div class="process-line"></div>
+
+
+                        <div class="process-step">
+
+                            <span>
+                                03
+                            </span>
+
+                            <strong>
+                                Indicators
+                            </strong>
+
+                            <small>
+                                Security findings
+                            </small>
+
+                        </div>
+
+
+                        <div class="process-line"></div>
+
+
+                        <div class="process-step">
+
+                            <span>
+                                04
+                            </span>
+
+                            <strong>
+                                Score
+                            </strong>
+
+                            <small>
+                                0–100 risk model
+                            </small>
+
+                        </div>
+
+
+                        <div class="process-line"></div>
+
+
+                        <div class="process-step">
+
+                            <span>
+                                05
+                            </span>
+
+                            <strong>
+                                Assessment
+                            </strong>
+
+                            <small>
+                                Risk + recommendation
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- RISK SCALE -->
+
+                <div class="panel risk-scale-panel">
+
+                    <div class="panel-heading">
+
+                        <div>
+
+                            <p class="eyebrow">
+                                RISK MODEL
+                            </p>
+
+                            <h3>
+                                Threat severity scale
+                            </h3>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="risk-scale">
+
+
+                        <div class="risk-scale-item">
+
+                            <div class="scale-score scale-low">
+                                0–29
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    LOW
+                                </strong>
+
+                                <small>
+                                    No major indicators detected.
+                                </small>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="risk-scale-item">
+
+                            <div class="scale-score scale-medium">
+                                30–59
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    MEDIUM
+                                </strong>
+
+                                <small>
+                                    Suspicious characteristics detected.
+                                </small>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="risk-scale-item">
+
+                            <div class="scale-score scale-high">
+                                60–79
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    HIGH
+                                </strong>
+
+                                <small>
+                                    Significant risk requires attention.
+                                </small>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="risk-scale-item">
+
+                            <div class="scale-score scale-critical">
+                                80–100
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    CRITICAL
+                                </strong>
+
+                                <small>
+                                    Immediate investigation recommended.
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </section>
+
+
+        </div>
+
+
+        <!-- =================================================
+             FOOTER
+             ================================================= -->
+
+        <footer class="app-footer">
+
+            <div>
+
+                <strong>
+                    SENTINEL
+                </strong>
+
+                <span>
+                    Intelligent Threat Monitoring Platform
+                </span>
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    Engine v1.0
+                </span>
+
+                <span>
+                    •
+                </span>
+
+                <span>
+                    Local Security Analysis
+                </span>
+
+                <span>
+                    •
+                </span>
+
+                <span>
+                    Secure Operations
+                </span>
+
+            </div>
+
+        </footer>
+
+
+    </main>
+
+</div>
+
+
+<script src="app.js"></script>
+
+</body>
+
+</html>

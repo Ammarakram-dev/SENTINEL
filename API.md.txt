@@ -1,0 +1,594 @@
+# SENTINEL — API Documentation
+
+## 1. API Overview
+
+SENTINEL provides a REST API through FastAPI for digital target analysis, threat assessment, system health monitoring, and scan history.
+
+### Base URL
+
+```text
+http://127.0.0.1:8000
+```
+
+The API communicates using JSON for request and response data where applicable.
+
+---
+
+## 2. Available Endpoints
+
+| Method | Endpoint           | Purpose                            |
+| ------ | ------------------ | ---------------------------------- |
+| GET    | `/`                | API information                    |
+| GET    | `/health`          | Backend health check               |
+| POST   | `/analyze/url`     | Analyze a URL                      |
+| POST   | `/analyze/domain`  | Analyze a domain or IP             |
+| POST   | `/analyze/threat`  | Perform complete threat assessment |
+| GET    | `/scans`           | Retrieve scan history              |
+| GET    | `/scans/{scan_id}` | Retrieve a specific scan           |
+
+---
+
+# 3. Root Endpoint
+
+## GET `/`
+
+Returns basic information about the SENTINEL backend.
+
+### Request
+
+```http
+GET /
+```
+
+### Example Response
+
+```json
+{
+  "name": "SENTINEL",
+  "status": "online",
+  "message": "Threat monitoring system is running."
+}
+```
+
+---
+
+# 4. Health Endpoint
+
+## GET `/health`
+
+Checks whether the SENTINEL backend and database are operational.
+
+### Request
+
+```http
+GET /health
+```
+
+### Example Response
+
+```json
+{
+  "status": "healthy",
+  "database": "connected",
+  "version": "1.0.0"
+}
+```
+
+The frontend uses this endpoint to monitor backend availability.
+
+---
+
+# 5. URL Analysis
+
+## POST `/analyze/url`
+
+Analyzes a URL using SENTINEL's URL-analysis rules.
+
+### Request Body
+
+```json
+{
+  "url": "https://example.com"
+}
+```
+
+### Example Request
+
+```http
+POST /analyze/url
+Content-Type: application/json
+```
+
+### Example Response
+
+```json
+{
+  "url": "https://example.com",
+  "risk_score": 0,
+  "risk_level": "LOW",
+  "indicator_count": 0,
+  "indicators": []
+}
+```
+
+The exact result depends on the characteristics of the submitted URL.
+
+---
+
+## URL Indicators
+
+The URL analysis engine evaluates characteristics including:
+
+* HTTPS usage
+* Suspicious keywords
+* URL length
+* Number of subdomains
+* Embedded credentials
+* Direct IP usage
+
+Suspicious keywords currently include:
+
+```text
+login
+signin
+verify
+verification
+account
+password
+secure
+confirm
+bank
+wallet
+payment
+```
+
+---
+
+# 6. Domain / IP Analysis
+
+## POST `/analyze/domain`
+
+Analyzes a domain name or IP address.
+
+### Request Body
+
+```json
+{
+  "target": "example.com"
+}
+```
+
+### Example Domain Response
+
+```json
+{
+  "target": "example.com",
+  "hostname": "example.com",
+  "type": "domain",
+  "ip_addresses": [
+    "93.184.216.34"
+  ],
+  "risk_indicators": [],
+  "status": "resolved",
+  "indicator_count": 0
+}
+```
+
+The actual IP addresses depend on DNS resolution at the time of analysis.
+
+---
+
+## IP Example
+
+### Request
+
+```json
+{
+  "target": "8.8.8.8"
+}
+```
+
+The API identifies the target as an IP address and evaluates relevant address characteristics.
+
+---
+
+# 7. Complete Threat Assessment
+
+## POST `/analyze/threat`
+
+This is the primary endpoint used by the SENTINEL scanner interface.
+
+It combines target analysis, threat scoring, recommendation generation, and database storage.
+
+### Request Body
+
+```json
+{
+  "target": "https://example.com",
+  "target_type": "url"
+}
+```
+
+### Supported Target Types
+
+```text
+url
+domain
+ip
+```
+
+---
+
+## Example Response
+
+```json
+{
+  "scan_id": 1,
+  "target": "https://example.com",
+  "target_type": "url",
+  "analysis": {
+    "url": "https://example.com",
+    "risk_score": 0,
+    "risk_level": "LOW",
+    "indicator_count": 0,
+    "indicators": []
+  },
+  "threat_assessment": {
+    "risk_score": 0,
+    "risk_level": "LOW",
+    "indicator_count": 0,
+    "indicators": [],
+    "recommendation": "No major indicators were detected by the current rules."
+  }
+}
+```
+
+The exact response varies according to the submitted target.
+
+---
+
+# 8. Threat Scoring
+
+The threat engine uses severity weights.
+
+| Severity | Weight |
+| -------- | -----: |
+| LOW      |      5 |
+| MEDIUM   |     15 |
+| HIGH     |     25 |
+| CRITICAL |     40 |
+
+The resulting score is normalized to a range of:
+
+```text
+0–100
+```
+
+---
+
+# 9. Risk Levels
+
+SENTINEL maps scores to four risk categories.
+
+|  Score | Level    |
+| -----: | -------- |
+|   0–29 | LOW      |
+|  30–59 | MEDIUM   |
+|  60–79 | HIGH     |
+| 80–100 | CRITICAL |
+
+---
+
+# 10. Scan History
+
+## GET `/scans`
+
+Returns previously stored security assessments.
+
+### Request
+
+```http
+GET /scans
+```
+
+### Example Response
+
+```json
+{
+  "count": 2,
+  "scans": [
+    {
+      "id": 2,
+      "target": "example.com",
+      "target_type": "domain",
+      "risk_score": 15,
+      "risk_level": "MEDIUM",
+      "recommendation": "Suspicious characteristics were detected. Further verification is recommended.",
+      "created_at": "2026-08-21T18:30:00"
+    },
+    {
+      "id": 1,
+      "target": "https://example.com",
+      "target_type": "url",
+      "risk_score": 0,
+      "risk_level": "LOW",
+      "recommendation": "No major indicators were detected by the current rules.",
+      "created_at": "2026-08-21T18:20:00"
+    }
+  ]
+}
+```
+
+The returned scan list is ordered from newest to oldest.
+
+---
+
+# 11. Single Scan
+
+## GET `/scans/{scan_id}`
+
+Retrieves a specific scan using its database ID.
+
+### Example
+
+```http
+GET /scans/1
+```
+
+### Example Response
+
+```json
+{
+  "id": 1,
+  "target": "https://example.com",
+  "target_type": "url",
+  "risk_score": 0,
+  "risk_level": "LOW",
+  "recommendation": "No major indicators were detected by the current rules.",
+  "created_at": "2026-08-21T18:20:00"
+}
+```
+
+---
+
+# 12. Scan Not Found
+
+If the requested scan ID does not exist, SENTINEL returns an HTTP 404 response.
+
+### Example
+
+```json
+{
+  "detail": "Scan not found."
+}
+```
+
+---
+
+# 13. Invalid Target Type
+
+The complete threat-assessment endpoint accepts only:
+
+```text
+url
+domain
+ip
+```
+
+An unsupported target type returns an HTTP 400 response.
+
+### Example
+
+```json
+{
+  "detail": "Invalid target_type. Use url, domain, or ip."
+}
+```
+
+---
+
+# 14. Request Models
+
+SENTINEL uses Pydantic request models.
+
+## URLRequest
+
+```text
+url: string
+```
+
+Used by:
+
+```text
+POST /analyze/url
+```
+
+---
+
+## DomainRequest
+
+```text
+target: string
+```
+
+Used by:
+
+```text
+POST /analyze/domain
+```
+
+---
+
+## ThreatRequest
+
+```text
+target: string
+target_type: string
+```
+
+The default target type is:
+
+```text
+url
+```
+
+Used by:
+
+```text
+POST /analyze/threat
+```
+
+---
+
+# 15. Frontend API Flow
+
+The SENTINEL frontend uses the following API flow.
+
+### Step 1 — Backend Check
+
+```text
+GET /health
+```
+
+The frontend determines whether the backend is online.
+
+### Step 2 — User Selects Target
+
+The user chooses:
+
+```text
+URL
+DOMAIN
+IP ADDRESS
+```
+
+### Step 3 — Target Submission
+
+The frontend sends:
+
+```text
+POST /analyze/threat
+```
+
+### Step 4 — Backend Analysis
+
+The backend:
+
+1. Validates the target type.
+2. Performs the appropriate analysis.
+3. Collects indicators.
+4. Calculates the threat score.
+5. Determines the risk level.
+6. Generates a recommendation.
+7. Saves the scan.
+8. Returns the result.
+
+### Step 5 — Result Display
+
+The frontend displays:
+
+* Target
+* Threat score
+* Risk level
+* Recommendation
+* Detected indicators
+
+### Step 6 — History Refresh
+
+The frontend requests:
+
+```text
+GET /scans
+```
+
+and updates the dashboard and history page.
+
+---
+
+# 16. CORS Configuration
+
+The backend allows requests from the local frontend development environments:
+
+```text
+http://127.0.0.1:5500
+http://localhost:5500
+```
+
+This allows the browser-based SENTINEL frontend to communicate with the FastAPI backend during local development.
+
+---
+
+# 17. Interactive API Documentation
+
+Because SENTINEL uses FastAPI, interactive API documentation is automatically available when the backend is running.
+
+### Swagger UI
+
+```text
+http://127.0.0.1:8000/docs
+```
+
+### ReDoc
+
+```text
+http://127.0.0.1:8000/redoc
+```
+
+These interfaces can be used to inspect and test the available API endpoints.
+
+---
+
+# 18. API Security Scope
+
+The current API is designed for local development and educational security analysis.
+
+It does not currently implement:
+
+* User authentication
+* API keys
+* Role-based authorization
+* Rate limiting
+* Production TLS termination
+* Enterprise access control
+
+These features can be added for a production deployment.
+
+---
+
+# 19. Future API Extensions
+
+Potential future endpoints include:
+
+```text
+GET  /intelligence/domain/{domain}
+GET  /intelligence/ip/{ip}
+GET  /intelligence/url
+GET  /reports/{scan_id}
+POST /reports/{scan_id}/export
+GET  /statistics
+GET  /alerts
+```
+
+These are future concepts and are **not part of the current API implementation**.
+
+---
+
+# 20. API Summary
+
+The current SENTINEL API provides the foundation for the complete application.
+
+Core capabilities include:
+
+* Backend health monitoring
+* URL analysis
+* Domain analysis
+* IP analysis
+* Threat assessment
+* Risk scoring
+* Security recommendations
+* Persistent scan storage
+* Scan history retrieval
+* Individual scan retrieval
+* Automatic interactive API documentation
+
+The API is designed to remain simple, modular, and extensible so additional threat-intelligence capabilities can be introduced in future versions.
